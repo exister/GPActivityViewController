@@ -181,7 +181,7 @@ NSString *const kVKEntryPoint = @"https://api.vk.com/method/";
 #pragma mark - helpers
 
 - (NSURL *)requestURLWithMethod:(NSString *)methodName {
-    return [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", kVKEntryPoint, methodName]];
+    return [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kVKEntryPoint, methodName]];
 }
 
 #pragma mark - VK sharing
@@ -198,7 +198,9 @@ NSString *const kVKEntryPoint = @"https://api.vk.com/method/";
         if (success) {
             success([[JSON objectForKey:@"response"] objectForKey:@"upload_url"]);
         }
-    } failure:nil];
+    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
+        NSLog(@"%@", error);
+    }];
     [operation start];
 }
 

@@ -72,7 +72,7 @@ NSString *const GPActivityVKontakte = @"GPActivityVKontakte";
         controller.navigationItem.rightBarButtonItem.title = title;
     }
     
-    __typeof(self) __weak weakSelf = self;
+    __typeof(&*self) __weak weakSelf = self;
     controller.completionHandler = ^(REComposeViewController *composeViewController, REComposeResult result) {
         
         if (result == REComposeResultPosted) {
@@ -87,7 +87,7 @@ NSString *const GPActivityVKontakte = @"GPActivityVKontakte";
                 
                 [weakSelf activityFinished:YES];
             } else {
-                [[VkontakteMgr sharedInstance] retrieveAccessToken:@[@"wall,photo"] completion:^(BOOL completed) {
+                [[VkontakteMgr sharedInstance] retrieveAccessToken:@[@"wall,photos"] completion:^(BOOL completed) {
                     if (completed) {
                         NSString *title = NSLocalizedStringFromTable(@"BUTTON_POST", @"GPActivityViewController", @"Post");
                         composeViewController.navigationItem.rightBarButtonItem.title = title;

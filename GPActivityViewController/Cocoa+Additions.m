@@ -25,20 +25,23 @@
 
 @implementation NSURL (Additions)
 
-- (NSURL *)serializeURLWithParams:(NSDictionary *)params {
-	NSString* queryPrefix = self.query ? @"&" : @"?";
-    
-	NSMutableArray* pairs = [NSMutableArray array];
-	for (NSString* key in [params keyEnumerator]) {
-		NSString* escaped_value = (__bridge NSString *)CFURLCreateStringByAddingPercentEscapes(NULL,
-                                                                                               (CFStringRef)[params objectForKey:key],                                                                                          NULL, (CFStringRef)@"!*'();:@&=+$,/?%#[]",
-                                                                                               kCFStringEncodingUTF8);
-        
-		[pairs addObject:[NSString stringWithFormat:@"%@=%@", key, escaped_value]];
-	}
-	NSString* query = [pairs componentsJoinedByString:@"&"];
-    
-	return [NSURL URLWithString:[NSString stringWithFormat:@"%@%@%@", self, queryPrefix, query]];
+- (NSURL *)serializeURLWithParams:(NSDictionary *) params
+{
+    NSString* queryPrefix = self.query ? @"&" : @"?";
+    NSString *result = @"";
+
+    if (params == nil){
+        return self;
+    }
+
+    id key;
+    NSEnumerator *enumerator = [params keyEnumerator];
+    while (key = [enumerator nextObject]) {
+        result = [result stringByAppendingFormat:@"%@=%@&", key, [params objectForKey:key]];
+    }
+    result = [result substringToIndex:[result length] - 1];
+    result = [result stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    return [NSURL URLWithString:[NSString stringWithFormat:@"%@%@%@", self, queryPrefix, result]];
 }
 
 @end
