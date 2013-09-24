@@ -29,11 +29,11 @@
 {
     NSString* queryPrefix = self.query ? @"&" : @"?";
     NSString *result = @"";
-
+    
     if (params == nil){
         return self;
     }
-
+        
     id key;
     NSEnumerator *enumerator = [params keyEnumerator];
     while (key = [enumerator nextObject]) {

@@ -309,7 +309,7 @@ static OdnoklassnikiMgr *instance = nil;
     [params setObject:signature forKey:@"sig"];
     [params setObject:[self accessToken] forKey:@"access_token"];
     
-    NSURL *requestURL = [[NSURL URLWithString:kOKAPIEntryPointURL] serializeURLWithParams:params];
+    NSURL *requestURL = [[NSURL URLWithString:kOKAPIEntryPointURL] serializeURLWithParams:params];    
     NSMutableURLRequest *shareRequest = [NSMutableURLRequest requestWithURL:requestURL];
     
     __typeof(&*self) __weak weakSelf = self;
