@@ -34,13 +34,17 @@
 - (id)init {
     self = [super init];
     if (self) {
-        self.title = NSLocalizedStringFromTable(@"ACTIVITY_VKONTAKTE", @"GPActivityViewController", @"VKontakte");        
+        self.title = NSLocalizedStringFromTable(@"ACTIVITY_VKONTAKTE", @"GPActivityViewController", @"VKontakte");
+        [self setup];
     }
     return self;
 }
 
-- (void)loadView {
+- (void)setup {
     _webView = [[UIWebView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+}
+
+- (void)loadView {
     self.view = _webView;
     self.view.backgroundColor = [UIColor whiteColor];
     
@@ -86,6 +90,10 @@
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     _activityIndicator.hidden = YES;
+}
+
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
+    NSLog(@"%@", error);
 }
 
 #pragma mark - autorotation
